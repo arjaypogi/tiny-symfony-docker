@@ -11,12 +11,13 @@ WORKDIR /app
 
 COPY . .
 
+# Create a minimal Symfony environment for the container
+RUN printf "APP_ENV=prod\nAPP_DEBUG=0\nAPP_SECRET=change-me-for-learning\n" > .env
+
 RUN composer install \
     --no-interaction \
     --prefer-dist \
     --optimize-autoloader \
     --no-scripts
-
-ENV APP_ENV=prod
 
 CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8000} -t public"]
