@@ -1,0 +1,26 @@
+services:
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+    command: php -S 0.0.0.0:8000 -t public
+
+  database:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: tiny_symfony
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - database_data:/var/lib/postgresql/data
+
+volumes:
+  database_data:
